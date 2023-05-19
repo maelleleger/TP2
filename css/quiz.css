@@ -1,0 +1,447 @@
+/************************************* Les propriétés personnalisées ******************************************/
+:root{
+    --couleur-quiz-foncee: #532e1f;
+    --couleur-quiz-claire: #f5c0a9;
+    --couleur-quiz-moyenne: #d49073;
+
+    --couleur-bonnes-reponses: #83e04e;
+    --couleur-texte-bonnes-reponses: #21460b;
+    --couleur-mauvaises-reponses: #e04e4e;
+    --couleur-texte-mauvaises-reponses: #5c1414;
+}
+
+/********************************* Normalisation supplémentaire ***************************************/
+*,
+::before,
+::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+/***************************************** Les polices ******************************************/
+@font-face {
+    font-family: "roughriders";
+    src: url("../polices/roughriders.otf");
+}
+
+@font-face {
+    font-family: "outskirts";
+    src: url("../polices/The\ Outskirts.otf");
+}
+
+/***************************************** Mise en page ******************************************/
+html {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+    font-family: "roughriders";
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+body {
+    max-width: 100%;
+    height: 100%;
+    background-color: var(--couleur-quiz-claire);
+    color: var(--couleur-quiz-claire); /*couleur du titre*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+main {
+    width: 80vw;
+    height: 80vh;
+    background-color: var(--couleur-quiz-foncee);
+    border-radius: 20px 20px 20px 20px;
+    /*Conteneur flex en colonne pour l'intro*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Le pied de page */
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 80vw;
+    height: 20vh;
+}
+
+/****************************************** Les éléments du quiz *******************************************************/
+/* La zone de la fin de quiz */
+main.fin-quiz {
+    /*Conteneur flex en colonne*/
+    flex-direction: column-reverse;
+    /*Non affiché au démarrage*/
+    display: none;
+}
+
+/* La zone de l'intro */
+main.intro-quiz{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 80vw;
+    height: 100vh;
+}
+
+/* La zone du score */
+section.score{
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    height: 30vh;
+    font-size: 0.8rem;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--couleur-quiz-claire);
+    color: var(--couleur-quiz-foncee);
+    border-radius: 15px 15px 15px 15px;
+    animation: animation-score 0.5s ease-in-out;
+}
+
+/* Le pied de page à la fin */
+.pied-de-page-fin{
+    display: flex;
+    width: 70vh;
+    height: 10vh;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Les instructions */
+footer h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80vw;
+    font-size: 1rem;
+    color: var(--couleur-quiz-moyenne);
+    animation: montrer-instructions 0.8s ease-in-out;
+}
+
+/* Le titre */
+.animation-titre-intro {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-family: "outskirts";
+    font-size: 2rem;
+    width: 80vw;
+    height: 20vh;
+    animation: monter-titre 350ms ease-in-out;
+}
+
+/* Le titre des questions */
+.les-titre-des-questions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: justify;
+    width: 60vw;
+    padding-bottom: 20vh;
+    font-size: 1rem;
+}
+
+/* Les choix de reponse */
+.les-choix-de-reponse{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30vh;
+    flex-direction: column;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+/* Activer ou désactiver le clic sur les choix de réponse*/
+section .les-choix-de-reponse.desactiver-clic {
+    pointer-events: none;
+}
+
+/* La zone pendant le quiz */
+.pendant-le-quiz{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+/* La fin du quiz */
+.fin-quiz{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Les choix de réponse */
+div.choix-de-reponse{
+    background-color: var(--couleur-quiz-moyenne);
+    color: var(--couleur-quiz-foncee);
+    height: 80px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px 10px 10px 10px;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+/* La barre blanche en dessous des choix de réponse */
+div.choix-de-reponse::before{
+    position: absolute;
+    content: "";
+    background-color: white;
+    bottom: 0;
+    left: 0;
+    right: 100%;
+    height: 2vh;
+    transition: left 0.5s, right 0.5s;
+    border-radius: 5px 5px 5px 5px;
+}
+
+div.choix-de-reponse:hover::before {
+    left: 0;
+    right: 0;
+}
+
+/* quand on survole les choix de réponse */
+div.choix-de-reponse:hover{
+    transform: scale(1.1);
+    background-color: var(--couleur-quiz-claire);
+}
+
+/* Les bonnes réponses */
+div.choix-de-reponse.bonne-reponse {
+    animation: animation-bonne-reponse 0.5s ease-in-out;
+    background-color: var(--couleur-bonnes-reponses);
+    color: var(--couleur-texte-bonnes-reponses);
+    transition: background-color 0.5s;
+}
+
+/* Les mauvaises réponses */
+div.choix-de-reponse.mauvaise-reponse {
+    animation: animation-mauvaise-reponse 0.5s ease-in-out;
+    background-color: var(--couleur-mauvaises-reponses);
+    color: var(--couleur-texte-mauvaises-reponses);
+    transition: background-color 0.5s;
+}
+
+/****************************************** L'animation des lettres du titre *******************************************************/
+.lettre{
+    padding: 0.2rem;
+    animation: animation-titre 0.8s ease-in-out;
+}
+
+.lettre:nth-child(2) {
+    animation-delay: 0.25s;
+}
+
+.lettre:nth-child(3) {
+    animation-delay: 0.5s;
+}
+
+.lettre:nth-child(4) {
+    animation-delay: 0.75s;
+}
+
+.lettre:nth-child(5) {
+    animation-delay: 1s;
+}
+
+.lettre:nth-child(6) {
+    animation-delay: 1.25s;
+}
+
+.lettre:nth-child(7) {
+    animation-delay: 1.5s;
+}
+
+.lettre:nth-child(8) {
+    animation-delay: 1.75s;
+}
+
+.lettre:nth-child(9) {
+    animation-delay: 0.25s;
+}
+
+.lettre:nth-child(10) {
+    animation-delay: 0.5s;
+}
+
+.lettre:nth-child(11) {
+    animation-delay: 0.75s;
+}
+
+.lettre:nth-child(12) {
+    animation-delay: 2s;
+}
+
+
+/*************************************** Les animations ********************************************/
+/* L'animation des instructions */
+@keyframes montrer-instructions {
+	from {
+		transform: translateX(-150vh);
+	}
+
+    90%{
+        transform: translateX(-150vh);
+    }
+
+	to {
+		transform: translateX(0vh);
+	}
+}
+
+/* L'animation du titre */
+@keyframes monter-titre {
+	from {
+		transform: translateY(60vh);
+	}
+
+	to {
+		transform: translateY(0vh);
+	}
+}
+
+/* L'animation du titre */
+@keyframes animation-titre {
+	from {
+		transform: scale(1, 1);
+	}
+
+	30% {
+		transform: scale(1, 1.65);
+	}
+    40%{
+        transform: scale(1, 1.75);
+    }
+
+	50% {
+		transform: scale(1, 2);
+	}
+
+	65% {
+		transform: scale(1, 1.75);
+	}
+
+	75% {
+		transform: scale(1, 1.85);
+	}
+
+	to {
+		transform: scale(1, 1);
+	}
+}
+
+/* L'animation du score */
+@keyframes animation-score {
+	from {
+		transform: translateX(100vh);
+	}
+
+    40%{
+        transform: translateX(-4vh);
+    }
+
+    60%{
+        transform: translateX(3vh);
+    }
+
+    85%{
+        transform: translateX(-1vh);
+    }
+
+	to {
+		transform: translateX(0vh);
+	}
+}
+
+/* L'animation des bonnes réponses */
+@keyframes animation-bonne-reponse {
+    from {
+		transform: scale(1);
+	}
+    30%{
+        transform: scale(1.3);
+    }
+
+    70%{
+        transform: scale(0.9);
+    }
+
+	to {
+		transform: scale(1);
+	}
+}
+
+/* L'animation des mauvaises réponses */
+@keyframes animation-mauvaise-reponse {
+    from {
+		transform: translateX(-8vh);
+	}
+
+    30%{
+        transform: translateX(8vh);
+    }
+
+    50%{
+        transform: translateX(-3vh);
+    }
+
+    65%{
+        transform: translateX(3vh);
+    }
+
+    70%{
+        transform: translateX(0vh);
+    }
+
+	to {
+		transform: translateX(0vh);
+	}
+}
+
+/*/////////////////////////////// Ajustement pour les écrans de taille moyenne et plus grande ///////////////////////////////////////////*/
+
+/************************************ taille d'un écran de tablette ****************************************/
+@media screen and (min-width: 768px) {
+
+    /* Le titre est plus gros sur tablette */
+    .animation-titre-intro{
+        font-size: 2.5rem;
+    }
+
+    .les-choix-de-reponse{
+        flex-direction: row;
+        margin-top: 0rem;
+    }
+
+    div.choix-de-reponse{
+        height: 150px;
+        width: 150px;
+    }
+
+}
+
+/************************************ taille d'un écran d'ordinateur ****************************************/
+@media screen and (min-width: 992px) {
+
+    /* Le titre est plus gros sur ordinateur */
+    .animation-titre-intro{
+        font-size: 4rem;
+    }
+
+    div.choix-de-reponse{
+        height: 150px;
+        width: 250px;
+    }
+}
